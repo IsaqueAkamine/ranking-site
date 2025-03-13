@@ -44,7 +44,7 @@ export default function Ranking() {
                   className="border-b border-gray-200 hover:bg-gray-50"
                 >
                   <td
-                    className="py-3 w-12 text-center" // Largura fixa e texto centralizado
+                    className="py-2 w-12 text-center" // Largura fixa e texto centralizado
                     style={{ backgroundColor: color }}
                   >
                     <span
@@ -54,12 +54,12 @@ export default function Ranking() {
                           jogador.posicao >= 17 && jogador.posicao <= 25
                             ? "#FFF"
                             : "#000",
-                      }} // Cor do texto branco
+                      }}
                     >
                       {jogador.posicao}
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-gray-800">{jogador.nome}</td>
+                  <td className="py-2 px-2 text-gray-800">{jogador.nome}</td>
                 </tr>
               );
             })}
