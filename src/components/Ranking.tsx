@@ -29,8 +29,9 @@ export default function Ranking() {
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-gray-200">
-              <th className="py-2 text-gray-700">Posição</th>
-              <th className="py-2 text-gray-700">Nome</th>
+              <th className="py-2 text-gray-700 w-12">Posição</th>{" "}
+              {/* Largura fixa */}
+              <th className="py-2 px-3 text-gray-700">Nome</th>
             </tr>
           </thead>
           <tbody>
@@ -42,16 +43,18 @@ export default function Ranking() {
                   key={jogador.id}
                   className="border-b border-gray-200 hover:bg-gray-50"
                 >
-                  <td className="py-3" style={{ backgroundColor: color }}>
+                  <td
+                    className="py-3 w-12 text-center" // Largura fixa e texto centralizado
+                    style={{ backgroundColor: color }}
+                  >
                     <span
-                      className="font-medium"
-                      style={{ color: "#FFF" }} // Aplica a cor ao número da posição
-                      // style={{ color: color }} // Aplica a cor ao número da posição
+                      className="font-medium flex items-center justify-center" // Centraliza o conteúdo
+                      style={{ color: "#000" }} // Cor do texto branco
                     >
                       {jogador.posicao}
                     </span>
                   </td>
-                  <td className="py-3 text-gray-800">{jogador.nome}</td>
+                  <td className="py-3 px-3 text-gray-800">{jogador.nome}</td>
                 </tr>
               );
             })}
