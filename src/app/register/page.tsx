@@ -15,6 +15,7 @@ export default function RegisterPage() {
     try {
       await register(email, password);
       router.push("/");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Erro ao registrar");
     }

@@ -63,6 +63,7 @@ export default function AdminPage() {
   };
 
   // Iniciar edição de jogador
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const iniciarEdicao = (jogador: any) => {
     setEditando(jogador.id);
     setEditNome(jogador.nome);
