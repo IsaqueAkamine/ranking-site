@@ -19,53 +19,47 @@ export default function Ranking() {
   const jogadoresOrdenados = jogadores.sort((a, b) => a.posicao - b.posicao);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Ranking de Jogadores
-      </h2>
-      {loading ? (
-        <p className="text-center text-gray-600">Carregando...</p>
-      ) : (
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b border-gray-200">
-              <th className="py-2 text-gray-700 w-12">Posição</th>{" "}
-              {/* Largura fixa */}
-              <th className="py-2 px-3 text-gray-700">Nome</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jogadoresOrdenados.map((jogador) => {
-              const color = getColorByPosition(jogador.posicao);
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+      <div className="w-full max-w-4xl">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Ranking de Jogadores
+        </h1>
+        <div className="bg-gray-800 rounded-lg p-6">
+          {loading ? (
+            <p className="text-center">Carregando...</p>
+          ) : (
+            <ul className="space-y-2">
+              {jogadoresOrdenados.map((jogador) => {
+                const color = getColorByPosition(jogador.posicao);
 
-              return (
-                <tr
-                  key={jogador.id}
-                  className="border-b border-gray-200 hover:bg-gray-50"
-                >
-                  <td
-                    className="py-2 w-12 text-center" // Largura fixa e texto centralizado
-                    style={{ backgroundColor: color }}
+                return (
+                  <li
+                    key={jogador.id}
+                    className="flex justify-between items-center p-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
                   >
-                    <span
-                      className="font-medium flex items-center justify-center" // Centraliza o conteúdo
-                      style={{
-                        color:
-                          jogador.posicao >= 17 && jogador.posicao <= 25
-                            ? "#FFF"
-                            : "#000",
-                      }}
-                    >
-                      {jogador.posicao}
-                    </span>
-                  </td>
-                  <td className="py-2 px-2 text-gray-800">{jogador.nome}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+                    <div className="flex items-center space-x-4">
+                      <div
+                        className="w-10 h-10 flex items-center justify-center rounded-full"
+                        style={{ backgroundColor: color }}
+                      >
+                        <span
+                          className="text-white font-medium"
+                          style={{
+                            color: jogador.posicao >= 37 ? "#000" : "#FFF",
+                          }}
+                        >
+                          {jogador.posicao}
+                        </span>
+                      </div>
+                      <span className="text-gray-200">{jogador.nome}</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
