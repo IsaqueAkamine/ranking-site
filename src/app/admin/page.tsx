@@ -21,17 +21,13 @@ export default function AdminPage() {
   const { jogadores, loading } = usePlayers();
   const [nome, setNome] = useState("");
   const [posicao, setPosicao] = useState("");
-  const [cor, setCor] = useState("");
   const [editando, setEditando] = useState<string | null>(null);
   const [editNome, setEditNome] = useState("");
   const [editPosicao, setEditPosicao] = useState("");
-  const [editCor, setEditCor] = useState("");
 
   // Verifica se o usuário é admin
   useEffect(() => {
-    // if (!user || user.email !== "admin@example.com") {
-    console.log("USER => ", user?.email);
-    if (!user || user.email !== "isaqueakamine@gmail.com") {
+    if (!user || user.email !== "admin@example.com") {
       router.push("/");
     }
   }, [user, router]);
@@ -39,18 +35,16 @@ export default function AdminPage() {
   // Adicionar jogador
   const handleAddPlayer = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nome || !posicao || !cor) return;
+    if (!nome || !posicao) return;
 
     try {
       await addDoc(collection(db, "jogadores"), {
         nome,
         posicao: Number(posicao),
-        cor,
       });
       toast.success("Jogador adicionado com sucesso!");
       setNome("");
       setPosicao("");
-      setCor("");
     } catch (error) {
       console.error("Erro ao adicionar jogador:", error);
       toast.error("Erro ao adicionar jogador.");
@@ -73,18 +67,16 @@ export default function AdminPage() {
     setEditando(jogador.id);
     setEditNome(jogador.nome);
     setEditPosicao(jogador.posicao.toString());
-    setEditCor(jogador.cor);
   };
 
   // Salvar edição de jogador
   const handleEditPlayer = async (id: string) => {
-    if (!editNome || !editPosicao || !editCor) return;
+    if (!editNome || !editPosicao) return;
 
     try {
       await updateDoc(doc(db, "jogadores", id), {
         nome: editNome,
         posicao: Number(editPosicao),
-        cor: editCor,
       });
       toast.success("Jogador atualizado com sucesso!");
       setEditando(null);
@@ -105,6 +97,17 @@ export default function AdminPage() {
     }
   };
 
+  // Função para determinar a cor com base na posição
+  const getColorByPosition = (posicao: number) => {
+    if (posicao === 1) return "#FFD700"; // Ouro
+    if (posicao >= 2 && posicao <= 4) return "#1E90FF"; // Azul
+    if (posicao >= 5 && posicao <= 9) return "#FF4500"; // Vermelho
+    if (posicao >= 10 && posicao <= 16) return "#32CD32"; // Verde
+    if (posicao >= 17 && posicao <= 25) return "#000000"; // Preto
+    if (posicao >= 26 && posicao <= 36) return "#FFA500"; // Laranja
+    return "#FFFFFF"; // Branco (posições 37-50)
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -121,7 +124,7 @@ export default function AdminPage() {
 
         {/* Formulário para adicionar jogador */}
         <form onSubmit={handleAddPlayer} className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Nome do Jogador"
@@ -138,21 +141,6 @@ export default function AdminPage() {
               className="w-full p-2 bg-gray-700 rounded"
               required
             />
-            <select
-              value={cor}
-              onChange={(e) => setCor(e.target.value)}
-              className="w-full p-2 bg-gray-700 rounded"
-              required
-            >
-              <option value="">Selecione a cor</option>
-              <option value="ouro">Ouro</option>
-              <option value="azul">Azul</option>
-              <option value="vermelho">Vermelho</option>
-              <option value="verde">Verde</option>
-              <option value="preto">Preto</option>
-              <option value="laranja">Laranja</option>
-              <option value="branco">Branco</option>
-            </select>
           </div>
           <button
             type="submit"
@@ -191,20 +179,6 @@ export default function AdminPage() {
                         className="w-full p-1 bg-gray-600 rounded"
                         required
                       />
-                      <select
-                        value={editCor}
-                        onChange={(e) => setEditCor(e.target.value)}
-                        className="w-full p-1 bg-gray-600 rounded"
-                        required
-                      >
-                        <option value="ouro">Ouro</option>
-                        <option value="azul">Azul</option>
-                        <option value="vermelho">Vermelho</option>
-                        <option value="verde">Verde</option>
-                        <option value="preto">Preto</option>
-                        <option value="laranja">Laranja</option>
-                        <option value="branco">Branco</option>
-                      </select>
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEditPlayer(jogador.id)}
@@ -224,10 +198,12 @@ export default function AdminPage() {
                     // Exibição normal
                     <>
                       <span>
-                        {jogador.nome} (Posição: {jogador.posicao}, Cor:{" "}
-                        <span style={{ color: getColor(jogador.cor) }}>
-                          {jogador.cor}
-                        </span>
+                        {jogador.nome} (Posição: {jogador.posicao})
+                      </span>
+                      <span
+                        style={{ color: getColorByPosition(jogador.posicao) }}
+                      >
+                        {getColorNameByPosition(jogador.posicao)}
                       </span>
                       <div>
                         <button
@@ -255,16 +231,13 @@ export default function AdminPage() {
   );
 }
 
-// Função para obter a cor correspondente
-const getColor = (cor: string) => {
-  const cores = {
-    ouro: "#FFD700",
-    azul: "#1E90FF",
-    vermelho: "#FF4500",
-    verde: "#32CD32",
-    preto: "#000000",
-    laranja: "#FFA500",
-    branco: "#FFFFFF",
-  };
-  return cores[cor] || "#FFFFFF";
+// Função para obter o nome da cor com base na posição
+const getColorNameByPosition = (posicao: number) => {
+  if (posicao === 1) return "Ouro";
+  if (posicao >= 2 && posicao <= 4) return "Azul";
+  if (posicao >= 5 && posicao <= 9) return "Vermelho";
+  if (posicao >= 10 && posicao <= 16) return "Verde";
+  if (posicao >= 17 && posicao <= 25) return "Preto";
+  if (posicao >= 26 && posicao <= 36) return "Laranja";
+  return "Branco";
 };
