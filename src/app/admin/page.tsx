@@ -197,10 +197,13 @@ export default function AdminPage() {
                   ) : (
                     // Exibição normal
                     <>
-                      <span>
-                        {jogador.nome} (Posição: {jogador.posicao})
+                      <span className="flex flex-row ">
+                        <p className="px-2">{jogador.posicao}</p> -
+                        <p className="px-2 min-w-70 ">{jogador.nome}</p>
+                        {/* (Posição: {jogador.posicao}) */}
                       </span>
                       <span
+                        className="px-5 min-w-30 text-center"
                         style={{ color: getColorByPosition(jogador.posicao) }}
                       >
                         {getColorNameByPosition(jogador.posicao)}
