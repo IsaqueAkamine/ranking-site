@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900">
+    <div className="min-h-screen bg-gray-100 text-gray-900  bg-gray-900 text-white">
       {/* Header */}
       <header className="bg-white shadow-md fixed w-full top-0 z-50">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -50,7 +50,12 @@ export default function Home() {
       </header>
 
       {/* Conteúdo Principal */}
-      <main className="pt-20 container mx-auto px-4">
+      {/* <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+      <div className="w-full max-w-4xl">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Ranking de Jogadores
+        </h1> */}
+      <main className="pt-20 container mx-auto px-4 bg-gray-900 text-white">
         <h1 className="text-4xl font-bold text-center mb-8">
           Bem-vindo ao Ranking de Tênis Toledão 2025
         </h1>
