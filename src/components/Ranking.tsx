@@ -49,7 +49,12 @@ export default function Ranking() {
                   >
                     <span
                       className="font-medium flex items-center justify-center" // Centraliza o conteúdo
-                      style={{ color: "#000" }} // Cor do texto branco
+                      style={{
+                        color:
+                          jogador.posicao >= 17 && jogador.posicao <= 25
+                            ? "#FFF"
+                            : "#000",
+                      }} // Cor do texto branco
                     >
                       {jogador.posicao}
                     </span>
